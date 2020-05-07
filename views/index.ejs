@@ -13,7 +13,8 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <!-- font Awesome cdn -->
   <script src="https://kit.fontawesome.com/d2fbf043df.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js" charset="utf-8" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0" ></script>
 </head>
 
 <body>
@@ -47,7 +48,7 @@
         </div>
         <div class="row">
           <div class="col-lg-12">
-            <span style="color:grey;">Last updated: <%=india_top_card_data[101].Date%></span>
+            <span style="color:grey;">Last updated: <%=forindia.Date%></span>
           </div>
         </div>
         <center>
@@ -88,7 +89,7 @@
           </div>
           <div class="col-lg-12">
 
-              <span style="color:grey;">Last updated: <%=india_top_card_data[101].Date%></span>
+              <span style="color:grey;">Last updated: <%=forindia.Date%></span>
 
           </div>
         </div>
@@ -98,7 +99,7 @@
             <div class="card" style="max-width: 18rem;border-left: 5px solid #4e73df;">
               <div class="card-body">
                 <h5 class="card-title">CONFIRMED</h5>
-                <p><%=india_top_card_data[101].TotalConfirmed%><sup>[+<%=india_top_card_data[101].NewConfirmed%>]</sup></p>
+                <p><%=forindia.TotalConfirmed%><sup>[+<%=forindia.NewConfirmed%>]</sup></p>
               </div>
             </div>
           </div>
@@ -106,7 +107,7 @@
             <div class="card" style="max-width: 18rem;border-left:5px solid #1cc88a;">
               <div class="card-body">
                 <h5 class="card-title">RECOVERED</h5>
-                <p><%=india_top_card_data[101].TotalRecovered%><sup>[+<%=india_top_card_data[101].NewRecovered%>]</sup></p>
+                <p><%=forindia.TotalRecovered%><sup>[+<%=forindia.NewRecovered%>]</sup></p>
             </div>
           </div>
           </div>
@@ -114,7 +115,7 @@
             <div class="card" style="max-width: 18rem;border-left:5px solid #e74a3b;">
               <div class="card-body">
                 <h5 class="card-title">DEATHS</h5>
-                <p><%=india_top_card_data[101].TotalDeaths%><sup>[+<%=india_top_card_data[101].NewDeaths%>]</sup></p>
+                <p><%=forindia.TotalDeaths%><sup>[+<%=forindia.NewDeaths%>]</sup></p>
               </div>
             </div>
           </div>
@@ -148,7 +149,7 @@
         <div class="card" style="width: auto;border-left:5px solid #e74a3b;" id="cards">
           <div class="card-body">
 
-              <div class="country-table" >
+              <div class="country-table" id="">
                 <table class="table" id="myTable2" style="max-height: 550px; overflow: auto; display: inline-block;">
                 <thead>
                   <tr>
@@ -191,24 +192,104 @@
 
     </div>
 </section>
+<section id="bargraph">
+  <h3 style="padding:1%;">Bar Graph of Top 10 COVID struck Countries</h3>
+  <div class="card" style="width:auto;border-left:5px solid #e74a3b;" id="cards" >
+    <div class="card-body">
+      <div class="container-fluid">
+        <center>
+
+          <canvas id="myChart3" width=auto; height=auto;></canvas>
+
+      </center>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="perMillionCases">
+      <h2 style="text-align:center;padding:2%">Tests conducted per million population - Country wise</h2>
+      <center>
+      <div class="card" style="width:55%;border-left:5px solid rgba(255, 206, 86, 0.8);" id="cards" >
+
+        <div class="card-body">
+          <div class="container-fluid">
+            <center>
+
+              <canvas id="myChart4" height=300px width=300px></canvas>
+
+          </center>
+          </div>
+
+        </div>
+
+      </div>
+          </center>
+</section>
 
 
+  <script >
+
+  var ctx = document.getElementById("myChart3").getContext("2d");
+var data = {
+  labels: [<%for(var i=0;i<10;i++){%>
+      "<%=bar_name[i].Country%>",
+    <%}%>
+  ],
+    datasets: [
+        {
+            label: "Confirmed",
+            backgroundColor: 'rgba(255, 206, 86, 0.8)',
+            data: [<%=bar_confirm%>]
+        },
+        {
+            label: "Recovered",
+            backgroundColor: "#1cc88a",
+            data: [<%=bar_recover%>]
+        },
+        {
+            label: "Dead",
+            backgroundColor: 'rgba(255, 99, 132, 0.8)',
+            data: [<%=bar_death%>]
+        }
+    ]
+};
+
+var myBarChart = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: {
+        barValueSpacing: 20,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    min: 0,
+                }
+            }]
+        }
+    }
+});
 
 
-  <!-- sorting table -->
+  </script>
 
-  <!-- sorting table -->
-
-  <!-- piechart -->
-  <script>
-
+<script >
+var plot = [];
 var ctx = document.getElementById('myChart2');
+<%for(var i=0;i<5;i++){%>
+   plot.push(<%=piedata[i].TotalConfirmed%>)
+<%}%>
+console.log(plot);
 var myChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
-        labels: [ 'France', 'Italy', 'Spain', 'UK','USA'],
+        labels: [<%for(var i=0;i<5;i++){%>
+        "<%=piedata[i].Country%>",
+      <%  }%>
+      ],
         datasets: [{
-            data: [<%=piedata%>],
+            data: plot,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.8)',
                 'rgba(54, 162, 235, 0.8)',
@@ -236,9 +317,12 @@ var myChart = new Chart(ctx, {
         }
     }
 });
+
 </script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+
 <script>
+
   var ctx = document.getElementById("myChart").getContext('2d');
   var myChart = new Chart(ctx, {
   type: 'pie',
@@ -254,11 +338,61 @@ var myChart = new Chart(ctx, {
     }]
   }
 });
+
+
 </script>
+
+<script >
+
+new Chart(document.getElementById("myChart4"), {
+    type: 'bar',
+    data: {
+      labels: [<%for(var i=1;i<11;i++){%>
+        "<%=perMillionCases[i].Country%>",
+        <%}%>
+      ],
+      datasets: [{
+          label: "Cases Per Million",
+          type: "line",
+          borderColor: "rgba(153, 102, 255, 0.8)",
+          data: [
+            <%for(var i=1;i<11;i++){%>
+              <%=perMillionCases[i].casesPerOneMillion%>,
+              <%}%>
+          ],
+         fill: false
+        }, {
+          label: "Tests Per Million",
+          type: "bar",
+          backgroundColor: "rgba(0,0,0,0.7)",
+          data: [<%for(var i=1;i<11;i++){%>
+            <%=perMillionCases[i].testsPerOneMillion%>,
+            <%}%>],
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Test Conducted per Million VS Cases Per Million'
+      },
+      legend: { display: false },
+      layout: {
+        padding: {
+          left: 50,
+          right: 50
+        }
+      }
+    }
+});
+
+ </script>
+
+
   <!-- piechart -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous" ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous" ></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous" ></script>
 </body>
 
 </html>

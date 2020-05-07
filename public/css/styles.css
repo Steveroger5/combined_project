@@ -39,3 +39,17 @@ body{
   text-align: center;
   border-radius: 6px;
 }
+#bargraph{
+    text-align: center;
+    margin:2% 8% 2% 8%;
+    padding: 2%;
+}
+.barcanvas{
+  height:auto;
+  width: 100px;
+}
+#perMillionCases{
+  margin:2% 8% 2% 8%;
+  padding: 2%;
+}
+/***************table search************/
