@@ -1,0 +1,41 @@
+body{
+  margin: 0;
+  padding: 0;
+    font-family:"Ubuntu";
+    background-color:#f8f9fa;
+}
+#navbar{
+  background-color:#f8f9fa;
+  webkit-box-shadow: 0 8px 6px -6px #999;
+  -moz-box-shadow: 0 8px 6px -6px #999;
+  box-shadow: 0 8px 6px -6px #999;
+  text-align: center;
+}
+#top{
+  font-family: "Ubuntu";
+}
+#top .card{
+  -moz-box-shadow: 0 8px 6px -6px #999;
+  box-shadow: 0 8px 6px -6px #999;
+  text-align: center;
+  border-radius: 6px;
+}
+/* #top h5{
+  font-size: 14px;
+  font-weight: bold;
+} */
+#top sup{
+  color: red;
+  font-weight: 500;
+  margin:0 5px;
+}
+
+#tabled{
+  margin:2% 8% 2% 8%;
+}
+#cards{
+  -moz-box-shadow: 0 8px 6px -6px #999;
+  box-shadow: 0 8px 6px -6px #999;
+  text-align: center;
+  border-radius: 6px;
+}
